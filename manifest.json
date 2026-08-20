@@ -1,0 +1,9 @@
+{
+  "name": "Festkasse",
+  "short_name": "Festkasse",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f7f4eb",
+  "theme_color": "#173f35",
+  "icons": []
+}

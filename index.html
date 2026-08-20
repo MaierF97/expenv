@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#173f35">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="styles.css">
+  <title>Festkasse</title>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Burschenverein Hohenkammer</p>
+        <h1>Festkasse</h1>
+      </div>
+      <button class="text-button" id="clear-order" type="button">Bestellung zurücksetzen</button>
+    </header>
+
+    <section class="order-layout" aria-label="Bestellrechner">
+      <div class="menu-panel">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Schneller Service</p>
+            <h2>Bestellung</h2>
+          </div>
+          <span class="item-count" id="item-count">0 Artikel</span>
+        </div>
+        <div class="category-tabs" role="tablist" aria-label="Menükategorien">
+          <button class="category-tab active" data-category="Alle" type="button">Alle</button>
+          <button class="category-tab" data-category="Brotzeit" type="button">Brotzeit</button>
+          <button class="category-tab" data-category="Getränke" type="button">Getränke</button>
+          <button class="category-tab" data-category="Pfand" type="button">Pfand</button>
+        </div>
+        <div class="product-grid" id="product-grid"></div>
+      </div>
+
+      <aside class="receipt-panel">
+        <div class="receipt-header">
+          <div>
+            <p class="eyebrow">Aktuelle Bestellung</p>
+            <h2>Kassenbon</h2>
+          </div>
+          <span class="order-number" id="order-number">#001</span>
+        </div>
+        <div class="receipt-items" id="receipt-items">
+          <div class="empty-state">Keine Artikel in dieser Bestellung.</div>
+        </div>
+        <div class="receipt-total">
+          <div class="total-row"><span>Gesamt</span><strong id="total">0,00 EUR</strong></div>
+        </div>
+        <div class="deposit-summary"><span>Netto-Pfand</span><strong id="deposit-balance">0</strong></div>
+        <div class="payment-controls">
+          <label for="customer-credit">Kundengeld</label>
+          <div class="credit-input"><input id="customer-credit" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0,00"><span>EUR</span></div>
+          <div class="change-row"><span id="payment-status">Noch zu zahlen</span><strong id="change">0,00 EUR</strong></div>
+        </div>
+        <button class="checkout-button" id="checkout" type="button" disabled>Bestellung abschließen</button>
+      </aside>
+    </section>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
