@@ -63,6 +63,7 @@ function renderReceipt() {
   const added = depositAdded;
   const returned = depositReturned;
   const amount = foodAndDrinks + ((added - returned) * depositPrice);
+  const hasCredit = customerCreditInput.value.trim() !== '';
   const credit = Math.max(0, Number.parseFloat(customerCreditInput.value) || 0);
   const difference = credit - amount;
   itemCount.textContent = `${count} ${count === 1 ? 'Artikel' : 'Artikel'}`;
@@ -70,9 +71,9 @@ function renderReceipt() {
   total.textContent = money(amount);
   mobileTotal.textContent = money(amount);
   lastAddedElement.textContent = lastAdded || 'Noch keine Auswahl';
-  change.textContent = money(Math.abs(difference));
-  paymentStatus.textContent = difference >= 0 ? 'Rückgeld' : 'Noch zu zahlen';
-  checkout.disabled = count === 0 || difference < 0;
+  change.textContent = hasCredit ? money(Math.abs(difference)) : money(0);
+  paymentStatus.textContent = !hasCredit ? 'Kundengeld nicht angegeben' : difference >= 0 ? 'Rückgeld' : 'Noch zu zahlen';
+  checkout.disabled = count === 0 || (hasCredit && difference < 0);
   const receiptRows = entries.map(([id, quantity]) => {
     const product = products.find((entry) => entry.id === id);
     return `<div class="receipt-item"><div><div class="receipt-item-name">${product.name}</div><div class="receipt-item-price">${money(product.price)}</div></div><div class="quantity-controls"><button data-decrease="${id}" type="button" aria-label="Ein ${product.name} weniger">-</button><strong>${quantity}</strong><button data-increase="${id}" type="button" aria-label="Ein ${product.name} mehr">+</button></div></div>`;
