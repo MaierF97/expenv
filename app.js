@@ -63,8 +63,8 @@ function renderReceipt() {
   const added = depositAdded;
   const returned = depositReturned;
   const amount = foodAndDrinks + ((added - returned) * depositPrice);
-  const hasCredit = customerCreditInput.value.trim() !== '';
-  const credit = Math.max(0, Number.parseFloat(customerCreditInput.value) || 0);
+  const credit = Math.max(0, Number.parseFloat(customerCreditInput.value.replace(',', '.')) || 0);
+  const hasCredit = credit > 0;
   const difference = credit - amount;
   itemCount.textContent = `${count} ${count === 1 ? 'Artikel' : 'Artikel'}`;
   depositBalance.textContent = added - returned;
