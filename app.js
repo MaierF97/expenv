@@ -1,10 +1,9 @@
 const products = [
   { id: 'weinflasche', name: 'Weinflasche', category: 'Getränke', price: 14 },
-  { id: 'wasser', name: 'Wasser, Apfelschorle, Spezi (0,5 l)', category: 'Getränke', price: 3 },
-  { id: 'cola-fanta', name: 'Cola und Fanta (0,33 l)', category: 'Getränke', price: 2.5 },
-  { id: 'weinschorle', name: 'Weinschorle (0,5 l)', category: 'Getränke', price: 4 },
+  { id: 'wasser', name: 'AFG 0,5 l', category: 'Getränke', price: 3 },
+  { id: 'cola-fanta', name: 'AFG 0,33 l', category: 'Getränke', price: 2.5 },
+  { id: 'weinschorle', name: 'Weinschorle', category: 'Getränke', price: 4 },
   { id: 'laternmass', name: 'Laternmaß', category: 'Getränke', price: 10 },
-  { id: 'weinglaspfand', name: 'Weinglaspfand', category: 'Getränke', price: 2 },
   { id: 'kaas-100g', name: '100 g Kaas', category: 'Brotzeit', price: 5 },
   { id: 'obazda-brot', name: 'Obazda mit Brot', category: 'Brotzeit', price: 7.5 },
   { id: 'obazda-breze', name: 'Obazda mit einer großen Breze', category: 'Brotzeit', price: 10 },
@@ -14,16 +13,15 @@ const products = [
   { id: 'brotzeitplattn-brot', name: 'Brotzeitplattn mit Brot', category: 'Brotzeit', price: 9 },
   { id: 'brotzeitplattn-breze', name: 'Brotzeitplattn mit einer großen Breze', category: 'Brotzeit', price: 11.5 },
   { id: 'grosse-brotzeitplattn', name: 'Große Brotzeitplattn mit Brot für 4 Pers.', category: 'Brotzeit', price: 35 },
-  { id: 'rahmfleckerl-tomate', name: 'Rahmfleckerl mit Tomate und Mozzarella', category: 'Brotzeit', price: 8 },
-  { id: 'rahmfleckerl-speck', name: 'Rahmfleckerl mit Speck und Lauchzwiebeln', category: 'Brotzeit', price: 8 },
+  { id: 'rahmfleckerl', name: 'Rahmfleckerl', category: 'Brotzeit', price: 8 },
   { id: 'steaksemmel', name: 'Steaksemmel', category: 'Brotzeit', price: 4 },
   { id: 'pommes', name: 'Portion Pommes', category: 'Brotzeit', price: 3.5 },
   { id: 'grosse-breze', name: 'Große Breze', category: 'Brotzeit', price: 4.5 },
 ];
 
 const depositOptions = [
-  { id: 'deposit-added', name: 'Pfand hinzufügen', category: 'Pfand', action: 'added' },
-  { id: 'deposit-returned', name: 'Pfand zurücknehmen', category: 'Pfand', action: 'returned' },
+  { id: 'deposit-added', name: 'Pfand 2€', category: 'Pfand', action: 'added' },
+  { id: 'deposit-returned', name: 'Pfand ZURÜCK', category: 'Pfand', action: 'returned' },
 ];
 
 const order = new Map();
