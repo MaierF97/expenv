@@ -28,6 +28,7 @@ const order = new Map();
 const depositPrice = 2;
 let depositAdded = 0;
 let depositReturned = 0;
+let lastAdded = '';
 const money = (value) => `${value.toFixed(2).replace('.', ',')} EUR`;
 const productGrid = document.querySelector('#product-grid');
 const receiptItems = document.querySelector('#receipt-items');
@@ -39,6 +40,8 @@ const paymentStatus = document.querySelector('#payment-status');
 const change = document.querySelector('#change');
 const checkout = document.querySelector('#checkout');
 const toast = document.querySelector('#toast');
+const lastAddedElement = document.querySelector('#last-added');
+const mobileTotal = document.querySelector('#mobile-total');
 
 function renderProducts(category = 'Alle') {
   const menuItems = category === 'Pfand' ? depositOptions : category === 'Alle' ? [...products, ...depositOptions] : products;
@@ -65,6 +68,8 @@ function renderReceipt() {
   itemCount.textContent = `${count} ${count === 1 ? 'Artikel' : 'Artikel'}`;
   depositBalance.textContent = added - returned;
   total.textContent = money(amount);
+  mobileTotal.textContent = money(amount);
+  lastAddedElement.textContent = lastAdded || 'Noch keine Auswahl';
   change.textContent = money(Math.abs(difference));
   paymentStatus.textContent = difference >= 0 ? 'Rückgeld' : 'Noch zu zahlen';
   checkout.disabled = count === 0 || difference < 0;
@@ -84,22 +89,38 @@ function changeQuantity(id, amount) {
 }
 
 document.addEventListener('click', (event) => {
+  const productCard = event.target.closest('.product-card');
   const add = event.target.closest('[data-add]');
   const increase = event.target.closest('[data-increase]');
   const decrease = event.target.closest('[data-decrease]');
   const deposit = event.target.closest('[data-deposit]');
   const depositIncrease = event.target.closest('[data-deposit-increase]');
   const depositDecrease = event.target.closest('[data-deposit-decrease]');
-  if (add) changeQuantity(add.dataset.add, 1);
+  if (add) {
+    const product = products.find((entry) => entry.id === add.dataset.add);
+    lastAdded = product.name;
+    changeQuantity(add.dataset.add, 1);
+  }
   if (increase) changeQuantity(increase.dataset.increase, 1);
   if (decrease) changeQuantity(decrease.dataset.decrease, -1);
-  if (deposit?.dataset.deposit === 'added') depositAdded += 1;
-  if (deposit?.dataset.deposit === 'returned') depositReturned += 1;
+  if (deposit?.dataset.deposit === 'added') {
+    lastAdded = 'Pfand hinzufügen';
+    depositAdded += 1;
+  }
+  if (deposit?.dataset.deposit === 'returned') {
+    lastAdded = 'Pfand zurücknehmen';
+    depositReturned += 1;
+  }
   if (depositIncrease?.dataset.depositIncrease === 'added') depositAdded += 1;
   if (depositIncrease?.dataset.depositIncrease === 'returned') depositReturned += 1;
   if (depositDecrease?.dataset.depositDecrease === 'added') depositAdded = Math.max(0, depositAdded - 1);
   if (depositDecrease?.dataset.depositDecrease === 'returned') depositReturned = Math.max(0, depositReturned - 1);
   if (deposit || depositIncrease || depositDecrease) renderReceipt();
+  if (productCard && (add || deposit)) {
+    productCard.classList.remove('selected-flash');
+    window.requestAnimationFrame(() => productCard.classList.add('selected-flash'));
+    window.setTimeout(() => productCard.classList.remove('selected-flash'), 420);
+  }
 });
 
 document.querySelector('.category-tabs').addEventListener('click', (event) => {
@@ -114,6 +135,7 @@ function resetOrder() {
   order.clear();
   depositAdded = 0;
   depositReturned = 0;
+  lastAdded = '';
   customerCreditInput.value = '';
   renderReceipt();
 }
