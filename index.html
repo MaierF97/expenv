@@ -3,69 +3,188 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#111827" />
-    <link rel="manifest" href="manifest.json" />
+    <title>Nikolaus-Booking</title>
     <link rel="stylesheet" href="styles.css" />
-    <title>Neue App</title>
   </head>
   <body>
     <div class="app-shell">
       <aside class="sidebar">
-        <div>
-          <p class="eyebrow">Starter</p>
-          <h1>Neue App</h1>
+        <div class="brand-block">
+          <p class="eyebrow">Vereinsportal</p>
+          <h1>Nikolausdienst</h1>
         </div>
-        <nav class="nav">
-          <button class="nav-item active" type="button">Übersicht</button>
-          <button class="nav-item" type="button">Projekte</button>
-          <button class="nav-item" type="button">Einstellungen</button>
+
+        <nav class="nav" aria-label="Hauptnavigation">
+          <button class="nav-item active" data-panel="booking" type="button">Buchung</button>
+          <button class="nav-item" data-panel="admin" type="button">Nikolaus verwalten</button>
+          <button class="nav-item" data-panel="dashboard" type="button">Dashboard</button>
+          <button class="nav-item" data-panel="visit" type="button">Besuchsseite</button>
         </nav>
       </aside>
 
       <main class="content">
         <header class="topbar">
           <div>
-            <p class="eyebrow">Willkommen</p>
-            <h2>Dein neues Projekt</h2>
+            <p class="eyebrow">Terminverwaltung</p>
+            <h2>Weihnachtsservice 2026</h2>
           </div>
-          <button id="reset" class="secondary-btn" type="button">Zurücksetzen</button>
+          <button id="reset-data" class="secondary-btn" type="button">Daten zurücksetzen</button>
         </header>
 
-        <section class="hero">
-          <div>
-            <p class="eyebrow">Status</p>
-            <h3>Alles läuft sauber</h3>
-          </div>
-          <span id="day-badge" class="status-pill">Heute</span>
-        </section>
-
-        <section class="card-grid">
-          <article class="card">
-            <p class="card-label">Aufgaben</p>
-            <strong id="task-count">0</strong>
-          </article>
-          <article class="card">
-            <p class="card-label">Erledigt</p>
-            <strong id="done-count">0</strong>
-          </article>
-          <article class="card accent">
-            <p class="card-label">Zeit</p>
-            <strong id="clock">--:--</strong>
-          </article>
-        </section>
-
-        <section class="todo-panel">
-          <div class="todo-header">
-            <h3>To-do Liste</h3>
-            <span id="task-summary">0 Einträge</span>
+        <section class="panel active" id="panel-booking">
+          <div class="panel-header">
+            <h3>Termin buchen</h3>
+            <span class="tag">30 Minuten pro Termin</span>
           </div>
 
-          <form id="todo-form" class="todo-form">
-            <input id="todo-input" type="text" placeholder="Neue Aufgabe eingeben" maxlength="80" />
-            <button type="submit">Hinzufügen</button>
+          <form id="booking-form" class="booking-form">
+            <div class="form-grid">
+              <label>
+                <span>Tag</span>
+                <select id="booking-date" required></select>
+              </label>
+
+              <label>
+                <span>Nikolaus</span>
+                <select id="booking-santa" required></select>
+              </label>
+
+              <label>
+                <span>Uhrzeit</span>
+                <select id="booking-time" required></select>
+              </label>
+
+              <label>
+                <span>Familienanzahl</span>
+                <input id="booking-family-count" type="number" min="1" max="12" value="1" required />
+              </label>
+
+              <label class="full-width">
+                <span>Name der Eltern</span>
+                <input id="booking-parent-name" type="text" placeholder="Max Mustermann" required />
+              </label>
+
+              <label class="full-width">
+                <span>E-Mail</span>
+                <input id="booking-email" type="email" placeholder="name@email.de" required />
+              </label>
+
+              <label class="full-width">
+                <span>Adresse</span>
+                <textarea id="booking-address" rows="3" placeholder="Straße, PLZ, Ort" required></textarea>
+              </label>
+            </div>
+
+            <button type="submit" class="primary-btn">Buchung senden</button>
           </form>
 
-          <ul id="todo-list" class="todo-list" aria-live="polite"></ul>
+          <div id="booking-success" class="success-box hidden" aria-live="polite"></div>
+        </section>
+
+        <section class="panel" id="panel-admin">
+          <div class="panel-header">
+            <h3>Nikolaus verwalten</h3>
+            <span class="tag">Profile & Verfügbarkeit</span>
+          </div>
+
+          <form id="santa-form" class="stack-form">
+            <div class="form-grid compact-grid">
+              <label>
+                <span>Name</span>
+                <input id="santa-name" type="text" placeholder="z. B. Nikolaus Josef" required />
+              </label>
+
+              <label>
+                <span>Verfügbare Tage</span>
+                <div class="checkbox-group">
+                  <label><input type="checkbox" name="santa-days" value="2026-12-05" checked /> 05.12.</label>
+                  <label><input type="checkbox" name="santa-days" value="2026-12-06" checked /> 06.12.</label>
+                </div>
+              </label>
+
+              <label>
+                <span>Zeiten</span>
+                <input id="santa-times" type="text" value="17:00,17:30,18:00,18:30" placeholder="17:00,17:30,18:00" required />
+              </label>
+            </div>
+
+            <button type="submit" class="primary-btn">Nikolaus speichern</button>
+          </form>
+
+          <div class="admin-list-wrap">
+            <h4>Aktive Nikolausse</h4>
+            <ul id="santa-list" class="list"></ul>
+          </div>
+        </section>
+
+        <section class="panel" id="panel-dashboard">
+          <div class="panel-header">
+            <h3>Dashboard</h3>
+            <span class="tag">Buchungen & Status</span>
+          </div>
+
+          <div class="stats-grid">
+            <article class="stat-card">
+              <span>Gesamt</span>
+              <strong id="stat-total">0</strong>
+            </article>
+            <article class="stat-card">
+              <span>Bestätigt</span>
+              <strong id="stat-confirmed">0</strong>
+            </article>
+            <article class="stat-card">
+              <span>Storniert</span>
+              <strong id="stat-cancelled">0</strong>
+            </article>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Familie</th>
+                  <th>Termin</th>
+                  <th>Nikolaus</th>
+                  <th>Status</th>
+                  <th>Aktion</th>
+                </tr>
+              </thead>
+              <tbody id="booking-table"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="panel" id="panel-visit">
+          <div class="panel-header">
+            <h3>Besuchsseite</h3>
+            <span class="tag">Text für den Nikolaus</span>
+          </div>
+
+          <div class="visit-layout">
+            <div class="visit-step">
+              <label>
+                <span>Besuchstoken</span>
+                <input id="visit-token" type="text" placeholder="z. B. a1b2c3d4..." />
+              </label>
+              <button id="visit-token-btn" class="secondary-btn" type="button">Token prüfen</button>
+            </div>
+
+            <form id="visit-form" class="visit-form hidden">
+              <label>
+                <span>Wunsch / Nachricht</span>
+                <textarea id="visit-message" rows="4" placeholder="Liebe Grüße, ich wünsche mir ..." required></textarea>
+              </label>
+
+              <label>
+                <span>Zusätzlicher Hinweis</span>
+                <textarea id="visit-note" rows="3" placeholder="Besonders gern ..."></textarea>
+              </label>
+
+              <button type="submit" class="primary-btn">Absenden</button>
+            </form>
+          </div>
+
+          <div id="visit-success" class="success-box hidden"></div>
         </section>
       </main>
     </div>
